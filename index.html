@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoGen - Gerador de Informativos</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <div class="header-title">
+                <h1>Gerador de Informativos</h1>
+                <p> Thalyssa Costa </p>
+            </div>
+            <div class="header-icon">🚚</div>
+        </header>
+
+        <div class="conteudo">
+
+            <!-- LADO ESQUERDO: FORMULÁRIO -->
+            <section class="formulario">
+
+                <div class="campo">
+                    <label for="tipoAlerta">Tipo de alerta</label>
+                    <select id="tipoAlerta">
+                        <option value="posicao_atraso">Posição em atraso</option>
+                        <option value="parada_indevida">Parada indevida</option>
+                        <option value="desvio_rota">Desvio de rota</option>
+                        <option value="problema_mecanico">Problema mecânico</option>
+                        <option value="painel_violado">Painel violado</option>
+                        <option value="violacao_antena">Violação de antena</option>
+                        <option value="perda_bateria">Perda de bateria</option>
+                        <option value="sensor_desengate">Sensor de desengate</option>
+                        <option value="confirmacao_entrega">Confirmação de entrega</option>
+                    </select>
+                </div>
+
+                <div class="linha-dupla">
+                    <div class="campo">
+                        <label for="placa">Placa</label>
+                        <input type="text" id="placa" placeholder="ABC-1234">
+                    </div>
+                    <div class="campo">
+                        <label for="ae">AE</label>
+                        <input type="text" id="ae" placeholder="Código AE">
+                    </div>
+                </div>
+
+                <div class="campo" id="grupo-uf">
+                    <label for="uf">Estado (UF)</label>
+                    <div class="autocomplete-wrap">
+                        <input type="text" id="uf" placeholder="Digite: SC ou Santa Catarina" autocomplete="off">
+                        <ul class="sugestoes" id="uf-sugestoes"></ul>
+                    </div>
+                </div>
+
+                <div class="campo" id="grupo-cidade">
+                    <label for="cidade">Cidade</label>
+                    <div class="autocomplete-wrap">
+                        <input type="text" id="cidade" placeholder="Digite o estado primeiro" disabled autocomplete="off">
+                        <ul class="sugestoes" id="cidade-sugestoes"></ul>
+                    </div>
+                </div>
+
+                <!-- Campos dinâmicos conforme o tipo de alerta -->
+                <div class="campo" id="grupo-contato">
+                    <label for="contatoCondutor">Contato com o condutor?</label>
+                    <select id="contatoCondutor">
+                        <option value="sem_exito">Sem êxito no contato / WhatsApp sem retorno</option>
+                        <option value="nao_atende">Não está atendendo e nem recebendo mensagens no WhatsApp</option>
+                        <option value="em_contato">Em contato - confirmou situação</option>
+                    </select>
+                </div>
+
+                <div class="campo hidden" id="grupo-detalhe-contato">
+                    <label for="detalheContato">O que o condutor informou?</label>
+                    <textarea id="detalheContato" rows="3" placeholder="Ex: informou que parou para almoço e já vai retomar a viagem"></textarea>
+                </div>
+
+                <div class="campo" id="grupo-telefone">
+                    <label for="telefone">Telefone do condutor</label>
+                    <input type="text" id="telefone" placeholder="(00) 00000-0000">
+                </div>
+
+                <div class="campo" id="grupo-horario">
+                    <label for="horario">Horário da última posição</label>
+                    <input type="time" id="horario">
+                </div>
+
+                <div class="campo hidden" id="grupo-situacao-veiculo">
+                    <label for="situacaoVeiculo">O veículo perdeu posição em movimento ou parado?</label>
+                    <select id="situacaoVeiculo">
+                        <option value="em_movimento">Em movimento</option>
+                        <option value="parado">Parado</option>
+                    </select>
+                </div>
+
+                <div class="campo hidden" id="grupo-contingencia">
+                    <label for="verificouContingencia">Foi verificado a contingência?</label>
+                    <select id="verificouContingencia">
+                        <option value="nao">Não</option>
+                        <option value="sim">Sim</option>
+                    </select>
+                </div>
+
+                <div class="campo hidden" id="grupo-detalhe-contingencia">
+                    <label for="detalheContingencia">Dados da contingência</label>
+                    <textarea id="detalheContingencia" rows="3" placeholder="Digite os dados verificados na contingência"></textarea>
+                </div>
+
+                <div class="campo" id="grupo-macro">
+                    <label for="mandouMacro">Mandou macro?</label>
+                    <select id="mandouMacro">
+                        <option value="nao">Não</option>
+                        <option value="sim">Sim</option>
+                    </select>
+                </div>
+
+                <div class="campo hidden" id="grupo-ultima-macro">
+                    <label for="ultimaMacro">Qual foi a última macro recebida?</label>
+                    <input type="text" id="ultimaMacro" placeholder="Ex: Parada não autorizada">
+                </div>
+
+                <div class="campo" id="grupo-problema">
+                    <label for="problema">Descrição do problema mecânico</label>
+                    <input type="text" id="problema" placeholder="Ex: Veículo está com vazamento de óleo (opcional)">
+                </div>
+
+                <div class="campo hidden" id="grupo-rodovia">
+                    <label for="rodovia">É em rodovia?</label>
+                    <select id="rodovia">
+                        <option value="nao">Não</option>
+                        <option value="sim">Sim</option>
+                    </select>
+                </div>
+
+                <div class="campo hidden" id="grupo-video">
+                    <label for="enviouVideo">O condutor enviou vídeo?</label>
+                    <select id="enviouVideo">
+                        <option value="nao">Não</option>
+                        <option value="sim">Sim</option>
+                    </select>
+                </div>
+
+                <div class="campo" id="grupo-cliente">
+                    <label for="cliente">Nome do cliente / local de entrega</label>
+                    <input type="text" id="cliente" placeholder="Ex: Razão social do cliente">
+                </div>
+
+                <div class="campo" id="grupo-link">
+                    <label for="link">Link (Google Maps / sistema / vídeo)</label>
+                    <input type="text" id="link" placeholder="https://...">
+                </div>
+
+                <button type="button" id="btnGerar">✨ Gerar Informativo</button>
+
+            </section>
+
+            <div class="divisoria"></div>
+
+            <!-- LADO DIREITO: RESULTADO -->
+            <section class="resultado">
+
+                <div id="painelPlaceholder" class="placeholder">
+                    <div class="icone-placeholder">🚛</div>
+                    <h2>Nenhum informativo gerado</h2>
+                    <p>Preencha os campos ao lado e clique em <strong>Gerar Informativo</strong>.</p>
+                </div>
+
+                <div id="painelResultado" class="resultado-box hidden">
+                    <div class="resultado-header">
+                        <h2>Informativo gerado</h2>
+                        <button type="button" id="btnCopiar" class="btn-copiar">📋 Copiar</button>
+                    </div>
+                    <pre id="textoGerado"></pre>
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
